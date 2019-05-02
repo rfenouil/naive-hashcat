@@ -37,32 +37,32 @@ echo -e "-----------------------------------------"
 
 # LIGHT
 echo -e "\n$(date $dateFormat) -- 1/4 -- DICTIONARY ATTACK -------------------------------------------"
-#"$HASHCAT_BIN" $WORKLOAD --hash-type "$HASH_TYPE" --attack-mode 0 "$HASH_FILE" "$DICT_FILE" --potfile-path "${OUTPUT_PREFIX}_1.pot" --outfile "${OUTPUT_PREFIX}_1.out"
+"$HASHCAT_BIN" $WORKLOAD --hash-type "$HASH_TYPE" --attack-mode 0 "$HASH_FILE" "$DICT_FILE" --potfile-path "${OUTPUT_PREFIX}_1.pot" --outfile "${OUTPUT_PREFIX}_1.out"
 
 
 # MEDIUM
 echo -e "\n$(date $dateFormat) -- 2/4 -- DICTIONARY ATTACK WITH RULES --------------------------------"
-for currentRuleFile in "${HASHCAT_RULEFILES[$@]}"
+for currentRuleFile in "${HASHCAT_RULEFILES[@]}"
 do
 	suffix="_2_$(basename "$currentRuleFile")"
 	echo -e "$(date $dateFormat) --> Using rule file: ${currentRuleFile}"
-	#"$HASHCAT_BIN" $WORKLOAD --hash-type "$HASH_TYPE" --attack-mode 0 "$HASH_FILE" "$DICT_FILE" --rules-file "$currentRuleFile" --potfile-path "${OUTPUT_PREFIX}${suffix}.pot" --outfile "${OUTPUT_PREFIX}${suffix}.out"
+	"$HASHCAT_BIN" $WORKLOAD --hash-type "$HASH_TYPE" --attack-mode 0 "$HASH_FILE" "$DICT_FILE" --rules-file "$currentRuleFile" --potfile-path "${OUTPUT_PREFIX}${suffix}.pot" --outfile "${OUTPUT_PREFIX}${suffix}.out"
 done
 
 
 # HEAVY
 echo -e "\n$(date $dateFormat) -- 3/4 -- MASK ATTACK (BRUTE-FORCE) -----------------------------------"
-for currentMaskFile in "${HASHCAT_MASKFILES[$@]}"
+for currentMaskFile in "${HASHCAT_MASKFILES[@]}"
 do
 	suffix="_3_$(basename "$currentMaskFile")"
 	echo -e "$(date $dateFormat) --> Using mask file: ${currentMaskFile}"
-	#"$HASHCAT_BIN" $WORKLOAD --hash-type "$HASH_TYPE" --attack-mode 3 "$HASH_FILE" "$currentMaskFile" --potfile-path "${OUTPUT_PREFIX}${suffix}.pot" --outfile "${OUTPUT_PREFIX}${suffix}.out"
+	"$HASHCAT_BIN" $WORKLOAD --hash-type "$HASH_TYPE" --attack-mode 3 "$HASH_FILE" "$currentMaskFile" --potfile-path "${OUTPUT_PREFIX}${suffix}.pot" --outfile "${OUTPUT_PREFIX}${suffix}.out"
 done
 
 
 # This one can take 12+ hours...
 echo -e "\n$(date $dateFormat) -- 4/4 -- COMBINATION ATTACK ------------------------------------------"
-#"$HASHCAT_BIN" $WORKLOAD --hash-type "$HASH_TYPE" --attack-mode 1 "$HASH_FILE" "$DICT_FILE" "$DICT_FILE" --potfile-path "${OUTPUT_PREFIX}_4.pot" --outfile "${OUTPUT_PREFIX}_4.out"
+"$HASHCAT_BIN" $WORKLOAD --hash-type "$HASH_TYPE" --attack-mode 1 "$HASH_FILE" "$DICT_FILE" "$DICT_FILE" --potfile-path "${OUTPUT_PREFIX}_4.pot" --outfile "${OUTPUT_PREFIX}_4.out"
 
 
 echo -e "\n-----------------------------------------"
