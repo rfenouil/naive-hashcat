@@ -4,6 +4,8 @@
 # Usage : naiveH.sh <pathToHashFile> <pathToDicFile> <hashTypeCode>
 # Paths to program/rules and advanced parameters need to be adjusted in script before use
 
+dateFormat='+%Y_%m_%d_%H_%M_%S'
+startDate="$(date $dateFormat)"
 
 
 #### Parameters ####
@@ -14,21 +16,18 @@ DICT_FILE=${2:-"~/myDic.txt"}
 HASH_TYPE=${3:-"0"}
 
 # Paths to hashcat files and dictionnary to be used
-HASHCAT_BIN=${HASHCAT_BIN:-"/$HOME/hashcat/hashcat"}
+HASHCAT_BIN=${HASHCAT_BIN:-"$HOME/hashcat/hashcat"}
 HASHCAT_RULEFILES=( "$HOME/hashcat/rules/d3ad0ne.rule" "$HOME/hashcat/rules/rockyou-30000.rule" "$HOME/hashcat/rules/dive.rule" )
 HASHCAT_MASKFILES=( "$HOME/hashcat/masks/rockyou-1-60.hcmask" )
 
 # How hard is the GPU going to be hit
 WORKLOAD="-w 4"
 # Filename for output and pot files
-OUTPUT_PREFIX="./result"
+OUTPUT_PREFIX="./result_${startDate}"
 
 
 
 #### Script ####
-
-dateFormat='+%Y_%m_%d_%H_%M_%S'
-startDate="$(date $dateFormat)"
 
 echo -e "-----------------------------------------"
 echo -e "------------ STARTING naiveH ------------"
