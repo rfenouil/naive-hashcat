@@ -29,19 +29,19 @@ OUTPUT_PREFIX="./result_${startDate}"
 
 #### Script ####
 
-echo -e "-----------------------------------------"
+echo -e "\n-----------------------------------------"
 echo -e "------------ STARTING naiveH ------------"
 echo -e "---------- $startDate ----------"
 echo -e "-----------------------------------------"
 
 
 # LIGHT
-echo -e "\n$(date $dateFormat) -- DICTIONARY ATTACK -------------------------------------------"
+echo -e "\n$(date $dateFormat) -- 1/4 -- DICTIONARY ATTACK -------------------------------------------"
 "$HASHCAT_BIN" $WORKLOAD --hash-type "$HASH_TYPE" --attack-mode 0 "$HASH_FILE" "$DICT_FILE" --potfile-path "${OUTPUT_PREFIX}.pot" --outfile "${OUTPUT_PREFIX}.out"
 
 
 # MEDIUM
-echo -e "\n$(date $dateFormat) -- DICTIONARY ATTACK WITH RULES --------------------------------"
+echo -e "\n$(date $dateFormat) -- 2/4 -- DICTIONARY ATTACK WITH RULES --------------------------------"
 for currentRuleFile in "${HASHCAT_RULEFILES[$@]}"
 do
 	echo -e "$(date $dateFormat) --> Using rule file: ${currentRuleFile}"
@@ -50,7 +50,7 @@ done
 
 
 # HEAVY
-echo -e "\n$(date $dateFormat) -- MASK ATTACK (BRUTE-FORCE) -----------------------------------"
+echo -e "\n$(date $dateFormat) -- 3/4 -- MASK ATTACK (BRUTE-FORCE) -----------------------------------"
 for currentMaskFile in "${HASHCAT_MASKFILES[$@]}"
 do
 	echo -e "$(date $dateFormat) --> Using mask file: ${currentMaskFile}"
@@ -59,7 +59,7 @@ done
 
 
 # This one can take 12+ hours...
-echo -e "\n$(date $dateFormat) -- COMBINATION ATTACK ------------------------------------------"
+echo -e "\n$(date $dateFormat) -- 4/4 -- COMBINATION ATTACK ------------------------------------------"
 "$HASHCAT_BIN" $WORKLOAD --hash-type "$HASH_TYPE" --attack-mode 1 "$HASH_FILE" "$DICT_FILE" "$DICT_FILE" --potfile-path "$POT_FILENAME" --outfile "${OUTPUT_PREFIX}.out"
 
 
